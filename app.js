@@ -15,20 +15,25 @@ app.get('/', (req, res) =>{
 app.post('/quote', async (req, res) =>{
     let {baseCurrency, quoteCurrency, baseAmount} = req.body;
 
-    let data = (await axios.get(rateURL + baseCurrency)).data;
+    axios.get(rateURL + baseCurrency)
+        .catch(err => {
+            console.log(err.response.data)
+            res.status(err.response?.status ?? 500).json(err.response?.data);
+        })
+        .then( response => {
+            const exchangeRate = response.data.rates[quoteCurrency];
 
-    let exchangeRate = data.rates[quoteCurrency];
-    let quoteAmount = Number((baseAmount * exchangeRate).toFixed(3));
+            if(!exchangeRate){
+                res.status(404).json({error: `Quote currency with code ${quoteCurrency} was not found.`})
+            }
+            const quoteAmount = Number((baseAmount * exchangeRate).toFixed(3));
 
-    let exchange = {
-        exchangeRate: exchangeRate,
-        quoteAmount: quoteAmount
-    }
-
-    //console.log(typeof exchange)
-    //console.log(exchange)
-
-    res.json(exchange)
+            let exchange = {
+                exchangeRate: exchangeRate,
+                quoteAmount: quoteAmount
+            }
+            res.json(exchange)
+        });
 
 })
 
