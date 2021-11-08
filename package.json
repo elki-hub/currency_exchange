@@ -1,10 +1,10 @@
 {
   "name": "currency_exchange",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
+    "start": "nodemon src/app.js",
     "start2": "nodemon app2.js"
   },
   "keywords": [],
@@ -15,6 +15,8 @@
     "axios": "^0.23.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1"
-
+  },
+  "devDependencies": {
+    "prettier": "2.4.1"
   }
 }
