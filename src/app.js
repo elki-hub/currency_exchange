@@ -6,6 +6,8 @@ const { getExchangeRate } = require("../src/exchangeRateAxios");
 
 app.use(bodyParser.json());
 
+//app.get("/", (req, res) => {});
+
 app.post("/quote", async (req, res) => {
   const { baseCurrency, quoteCurrency, baseAmount } = req.body;
 
