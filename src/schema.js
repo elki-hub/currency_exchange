@@ -13,7 +13,7 @@ const objectSchema = Joi.object({
     .uppercase()
     .regex(/^[A-Z]+$/, { name: "alpha" })
     .valid("EUR", "USD", "GBP", "ILS"),
-  baseAmount: Joi.number().integer().required(),
+  baseAmount: Joi.number().integer().positive().required(),
 });
 
 module.exports = {
