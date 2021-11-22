@@ -1,18 +1,13 @@
 const Joi = require("joi");
 
-//const validCurrencies = ["EUR", "USD", "GBP", "ILS"];
+const validCurrencies = ["EUR", "USD", "GBP", "ILS"];
+const currencySchema = Joi.string()
+  .uppercase()
+  .valid(...validCurrencies);
 
 const objectSchema = Joi.object({
-  baseCurrency: Joi.string()
-    .length(3)
-    .uppercase()
-    .regex(/^[A-Z]+$/, { name: "alpha" })
-    .valid("EUR", "USD", "GBP", "ILS"),
-  quoteCurrency: Joi.string()
-    .length(3)
-    .uppercase()
-    .regex(/^[A-Z]+$/, { name: "alpha" })
-    .valid("EUR", "USD", "GBP", "ILS"),
+  baseCurrency: currencySchema.required(),
+  quoteCurrency: currencySchema.required(),
   baseAmount: Joi.number().integer().positive().required(),
 });
 
