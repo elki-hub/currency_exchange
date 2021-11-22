@@ -2,19 +2,19 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
-const { getExchangeRate } = require("./exchangeRateAxios");
+const { Api } = require("./exchangeRateAxios");
 const { objectSchema } = require("./schema");
+const { Cache2 } = require("../src/cache2");
 
 app.use(bodyParser.json());
-
-class Cache {
-  constructor(baseCurrency, quoteCurrency, exchangeRate) {
-    this.baseCurrency = baseCurrency;
-    this.quoteCurrency = quoteCurrency;
-    this.exchangeRate = exchangeRate;
-  }
-}
-let cache = [];
+let cache = new Cache2();
+// class C {
+//   constructor(baseCurrency, quoteCurrency, exchangeRate) {
+//     this.baseCurrency = baseCurrency;
+//     this.quoteCurrency = quoteCurrency;
+//     this.exchangeRate = exchangeRate;
+//   }
+// }
 
 app.post("/quote", async (req, res) => {
   try {
@@ -30,20 +30,30 @@ app.post("/quote", async (req, res) => {
   const { baseAmount, baseCurrency, quoteCurrency } = req.body;
 
   try {
-    const cachedExchangeRate = cache.find(
-      ({ baseCurrency, quoteCurrency }) =>
-        baseCurrency === this.baseCurrency &&
-        quoteCurrency === this.quoteCurrency
+    // //1. Padaryti class kuri moka gauti api
+    // const api = new Api(baseCurrency, quoteCurrency);
+    // console.log("exchange rate:" + (await api.getExchangeRate()));
+    // //2. Padaryti class kuri moka cacheuoti bet ka
+    // //3. Padaryt class, kuri apjungia dvi klases
+
+    //const cachedExchangeRate = cache[baseCurrency + "/" + quoteCurrency];
+
+    const cachedExchangeRate = await cache.get(
+      baseCurrency + "/" + quoteCurrency
     );
 
     async function addCache(baseCurrency, quoteCurrency) {
-      const exchangeRate = await getExchangeRate(baseCurrency, quoteCurrency);
-      cache.push(new Cache(baseCurrency, quoteCurrency, exchangeRate));
+      const exchangeRate = await new Api(
+        baseCurrency,
+        quoteCurrency
+      ).getExchangeRate();
+      cache.set(baseCurrency + "/" + quoteCurrency, exchangeRate);
       return exchangeRate;
     }
 
+    //ternary operator
     const exchangeRate = cachedExchangeRate
-      ? cachedExchangeRate.exchangeRate
+      ? cachedExchangeRate
       : await addCache(baseCurrency, quoteCurrency);
 
     const quoteAmount = await Number((baseAmount * exchangeRate).toFixed(3));
@@ -57,7 +67,8 @@ app.post("/quote", async (req, res) => {
 
     res.json(exchange);
   } catch (err) {
-    console.log(err.response.data);
+    //console.log(err.response.data);
+    console.log(err);
     return res.status(500).json({ error: "System error!" });
   }
 });
