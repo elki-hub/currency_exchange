@@ -2,19 +2,12 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
-const { Api } = require("./exchangeRateAxios");
 const { objectSchema } = require("./schema");
-const { Cache2 } = require("../src/cache2");
-
+const { Cache } = require("../src/cache2");
+const { Exchange } = require("../src/exchange");
 app.use(bodyParser.json());
-let cache = new Cache2();
-// class C {
-//   constructor(baseCurrency, quoteCurrency, exchangeRate) {
-//     this.baseCurrency = baseCurrency;
-//     this.quoteCurrency = quoteCurrency;
-//     this.exchangeRate = exchangeRate;
-//   }
-// }
+
+//const converter = new Exchange();
 
 app.post("/quote", async (req, res) => {
   try {
@@ -30,35 +23,14 @@ app.post("/quote", async (req, res) => {
   const { baseAmount, baseCurrency, quoteCurrency } = req.body;
 
   try {
-    // //1. Padaryti class kuri moka gauti api
-    // const api = new Api(baseCurrency, quoteCurrency);
-    // console.log("exchange rate:" + (await api.getExchangeRate()));
-    // //2. Padaryti class kuri moka cacheuoti bet ka
-    // //3. Padaryt class, kuri apjungia dvi klases
-
-    //const cachedExchangeRate = cache[baseCurrency + "/" + quoteCurrency];
-
-    const cachedExchangeRate = await cache.get(
-      baseCurrency + "/" + quoteCurrency
+    const exchangeRate = await Exchange.getExchangeWithCache(
+      baseCurrency,
+      quoteCurrency
     );
-
-    async function addCache(baseCurrency, quoteCurrency) {
-      const exchangeRate = await new Api(
-        baseCurrency,
-        quoteCurrency
-      ).getExchangeRate();
-      cache.set(baseCurrency + "/" + quoteCurrency, exchangeRate);
-      return exchangeRate;
-    }
-
-    //ternary operator
-    const exchangeRate = cachedExchangeRate
-      ? cachedExchangeRate
-      : await addCache(baseCurrency, quoteCurrency);
 
     const quoteAmount = await Number((baseAmount * exchangeRate).toFixed(3));
     //console.log(quoteAmount);
-    console.log(cache);
+    console.log(Cache);
 
     const exchange = {
       exchangeRate: exchangeRate,

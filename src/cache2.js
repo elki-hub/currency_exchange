@@ -1,13 +1,11 @@
 class Cache {
-  constructor() {
-    this.cache = {};
-  }
+  static cache = {};
 
-  set(key, value) {
+  static set(key, value) {
     this.cache[key] = value;
   }
 
-  get(key) {
+  static get(key) {
     let value = this.cache[key];
     if (!value) {
       return undefined;
@@ -17,3 +15,4 @@ class Cache {
 }
 
 exports.Cache2 = Cache;
+exports.Cache = Cache;
