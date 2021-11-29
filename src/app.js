@@ -3,11 +3,14 @@ const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
 const { objectSchema } = require("./schema");
-const { Cache } = require("../src/cache2");
-const { Exchange } = require("../src/exchange");
+const { Cache } = require("./cache2");
+const { ExchangeRateClient } = require("./exchangeRateClient");
+const { ExchangeService } = require("./exchangeService");
 app.use(bodyParser.json());
 
-//const converter = new Exchange();
+const cache = new Cache();
+const exchangeRateClient = new ExchangeRateClient();
+const exchangeService = new ExchangeService(exchangeRateClient, cache);
 
 app.post("/quote", async (req, res) => {
   try {
@@ -23,14 +26,14 @@ app.post("/quote", async (req, res) => {
   const { baseAmount, baseCurrency, quoteCurrency } = req.body;
 
   try {
-    const exchangeRate = await Exchange.getExchangeWithCache(
+    const exchangeRate = await exchangeService.getExchangeWithCache(
       baseCurrency,
       quoteCurrency
     );
 
     const quoteAmount = await Number((baseAmount * exchangeRate).toFixed(3));
     //console.log(quoteAmount);
-    console.log(Cache);
+    console.log(cache);
 
     const exchange = {
       exchangeRate: exchangeRate,
