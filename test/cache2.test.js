@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { Cache2 } = require("../src/cache2");
+const { Cache2 } = require("../src/cache");
 
 describe("Cache2", () => {
   it("can be instantiated", () => {
