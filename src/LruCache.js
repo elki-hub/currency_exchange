@@ -6,40 +6,35 @@ class LruCache {
   }
 
   makeRecentlyUsed(key, value) {
-    let cacheKeys = Object.keys(this.cache);
-    let max = 0;
+    delete this.cache[key];
 
-    for (let i = this.size - 1; i >= 0; i--) {
-      let currentKey = cacheKeys[i];
-      max++;
-
-      if (currentKey === key) {
-        delete this.cache[currentKey];
-        break;
-      }
-      if (max === this.max) {
-        delete this.cache[currentKey];
-      }
+    if (Object.values(this.cache).length === this.max) {
+      delete this.cache[Object.keys(this.cache)[0]];
     }
+
     this.cache[key] = value;
   }
 
   set(key, value) {
-    if (Object.keys(this.cache)[this.size - 1] !== key && this.size !== 0) {
+    if (this.getLatestKey !== key && this.size > 0) {
       this.makeRecentlyUsed(key, value);
     } else if (this.size === 0) {
       this.cache[key] = value;
     }
 
-    this.size = Object.keys(this.cache).length;
+    this.size = Object.values(this.cache).length;
   }
 
   get(key) {
     const value = this.cache[key];
-    if (value && Object.keys(this.cache)[this.size - 1] !== key) {
+    if (value && this.getLatestKey !== key) {
       this.makeRecentlyUsed(key, value);
     }
     return value;
+  }
+
+  getLatestKey() {
+    return Object.keys(this.cache)[this.size - 1];
   }
 }
 
