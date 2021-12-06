@@ -5,7 +5,7 @@ class LruCache {
     this.cache = {};
   }
 
-  static makeRecentlyUsed(key, value) {
+  #makeRecentlyUsed(key, value) {
     delete this.cache[key];
 
     if (Object.values(this.cache).length === this.max) {
@@ -17,7 +17,7 @@ class LruCache {
 
   set(key, value) {
     if (this.getLatestKey !== key && this.size > 0) {
-      LruCache.makeRecentlyUsed(key, value);
+      this.#makeRecentlyUsed(key, value);
     } else if (this.size === 0) {
       this.cache[key] = value;
     }
@@ -28,7 +28,7 @@ class LruCache {
   get(key) {
     const value = this.cache[key];
     if (value && this.getLatestKey !== key) {
-      LruCache.makeRecentlyUsed(key, value);
+      this.#makeRecentlyUsed(key, value);
     }
     return value;
   }
