@@ -6,40 +6,39 @@ class LruCache {
   }
 
   makeRecentlyUsed(key, value) {
-    let tempCache = Object.entries(this.cache);
-    const newCache = {};
-    let max = this.max - 1;
+    let cacheKeys = Object.keys(this.cache);
+    let max = 0;
 
-    newCache[key] = value;
+    for (let i = this.size - 1; i >= 0; i--) {
+      let currentKey = cacheKeys[i];
+      max++;
 
-    for (let i = 0; i < this.size && i < max; i++) {
-      let entity = tempCache[i]; // [ 'A', 13 ]
-
-      if (entity[0] !== key) {
-        newCache[entity[0]] = entity[1];
-      } else {
-        max++;
+      if (currentKey === key) {
+        delete this.cache[currentKey];
+        break;
+      }
+      if (max === this.max) {
+        delete this.cache[currentKey];
       }
     }
-
-    return newCache;
+    this.cache[key] = value;
   }
 
   set(key, value) {
-    if (key !== Object.keys(this.cache)[0] && this.size !== 0) {
-      this.cache = this.makeRecentlyUsed(key, value);
-    } else {
+    if (Object.keys(this.cache)[this.size - 1] !== key && this.size !== 0) {
+      this.makeRecentlyUsed(key, value);
+    } else if (this.size === 0) {
       this.cache[key] = value;
     }
+
     this.size = Object.keys(this.cache).length;
   }
 
   get(key) {
     const value = this.cache[key];
-    if (value) {
-      this.cache = this.makeRecentlyUsed(key, value);
+    if (value && Object.keys(this.cache)[this.size - 1] !== key) {
+      this.makeRecentlyUsed(key, value);
     }
-
     return value;
   }
 }
