@@ -1,3 +1,17 @@
+// class LinkedList {
+//   list = [];
+//
+//   //adds element to the list tail
+//   addElementToTail(item) {
+//     this.list.push(item);
+//   }
+//
+//   //returns element from head and removes from the list
+//   shiftElementFromHead() {
+//     return this.list.shift();
+//   }
+// }
+
 class LruCache {
   constructor(max) {
     this.max = max;

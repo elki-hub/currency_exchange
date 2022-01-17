@@ -11,6 +11,7 @@ class ExchangeService {
       exchangeResult = await this.api.getRate(baseCurrency, quoteCurrency);
       this.cache.set(key, exchangeResult);
     }
+    console.log(this.cache);
     return exchangeResult;
   }
 
