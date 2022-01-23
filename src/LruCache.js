@@ -12,43 +12,75 @@
 //   }
 // }
 
+class Node {
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
 class LruCache {
   constructor(max) {
+    this.head = null;
+    this.tail = null;
     this.max = max;
     this.size = 0;
     this.cache = {};
   }
 
-  #makeRecentlyUsed(key, value) {
-    delete this.cache[key];
-
-    if (Object.values(this.cache).length === this.max) {
-      delete this.cache[Object.keys(this.cache)[0]];
+  #addElementToTheTail(node) {
+    if (this.tail) {
+      this.tail.next = node;
     }
-
-    this.cache[key] = value;
-  }
-
-  set(key, value) {
-    if (this.getLatestKey !== key && this.size > 0) {
-      this.#makeRecentlyUsed(key, value);
-    } else if (this.size === 0) {
-      this.cache[key] = value;
-    }
-
+    node.next = null;
+    node.prev = this.tail;
+    this.tail = node;
+    this.cache[node.key] = node;
     this.size = Object.values(this.cache).length;
   }
 
-  get(key) {
-    const value = this.cache[key];
-    if (value && this.getLatestKey !== key) {
-      this.#makeRecentlyUsed(key, value);
+  set(key, value) {
+    let node = new Node(key, value);
+
+    //if the list is empty
+    if (this.size === 0) {
+      this.head = node;
     }
-    return value;
+
+    // if the list is full removes first element from the list (head)
+    else if (this.size === this.max) {
+      delete this.cache[this.head.key];
+      this.head = this.head.next;
+      this.head.prev = null;
+    }
+
+    //adds new element to the tail
+    this.#addElementToTheTail(node);
   }
 
-  getLatestKey() {
-    return Object.keys(this.cache)[this.size - 1];
+  get(key) {
+    const node = this.cache[key];
+    if (!node) {
+      return undefined;
+    }
+
+    // if element exist, make recently used
+    if (node && this.tail !== node) {
+      if (node.prev && this.head !== node) {
+        this.cache[node.prev.key].next = node.next;
+        this.cache[node.next.key].prev = node.prev;
+      } else {
+        this.cache[node.next.key].prev = null;
+        this.head = node.next;
+      }
+
+      delete this.cache[node.key];
+      this.#addElementToTheTail(node);
+    }
+
+    return node.value;
   }
 }
 
