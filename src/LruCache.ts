@@ -1,18 +1,9 @@
-// class LinkedList {
-//   list = [];
-//
-//   //adds element to the list tail
-//   addElementToTail(item) {
-//     this.list.push(item);
-//   }
-//
-//   //returns element from head and removes from the list
-//   shiftElementFromHead() {
-//     return this.list.shift();
-//   }
-// }
+class LinkedNode {
+  key: string;
+  private value: number;
+  next: LinkedNode;
+  prev: LinkedNode;
 
-class Node {
   constructor(key, value) {
     this.key = key;
     this.value = value;
@@ -21,7 +12,13 @@ class Node {
   }
 }
 
-class LruCache {
+class LinkedCache {
+  private head: LinkedNode;
+  private tail: LinkedNode;
+  private readonly max: number;
+  private size: number;
+  private cache: {};
+
   constructor(max) {
     this.head = null;
     this.tail = null;
@@ -42,7 +39,7 @@ class LruCache {
   }
 
   set(key, value) {
-    let node = new Node(key, value);
+    let node = new LinkedNode(key, value);
 
     //if the list is empty
     if (this.size === 0) {
@@ -84,4 +81,4 @@ class LruCache {
   }
 }
 
-exports.LruCache = LruCache;
+exports.LruCache = LinkedCache;

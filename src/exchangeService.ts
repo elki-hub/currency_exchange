@@ -1,4 +1,8 @@
+// @ts-ignore
 class ExchangeService {
+  private api: any;
+  private cache: any;
+
   constructor(api, cache) {
     this.api = api;
     this.cache = cache;

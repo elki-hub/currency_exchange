@@ -1,11 +1,11 @@
 {
   "name": "currency_exchange",
   "version": "1.0.0",
-  "main": "dist/application.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "mocha",
     "build": "tsc",
-    "start": "node dist/application.js",
+    "start": "node dist/app.js",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts"
   },

@@ -4,7 +4,9 @@ const port = 3000;
 const bodyParser = require("body-parser");
 const { objectSchema } = require("./schema");
 const { LruCache } = require("./LruCache");
+// @ts-ignore
 const { ExchangeRateClient } = require("./exchangeRateClient");
+// @ts-ignore
 const { ExchangeService } = require("./exchangeService");
 app.use(bodyParser.json());
 
