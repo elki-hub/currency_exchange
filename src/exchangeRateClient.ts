@@ -1,9 +1,7 @@
 const axios = require("axios");
-
 //sinon js
 
-// @ts-ignore
-class ExchangeRateClient {
+export class ExchangeRateClient {
   private readonly rateURL: string;
 
   constructor() {
@@ -16,7 +14,3 @@ class ExchangeRateClient {
     return data.data.rates[quoteCurrency];
   }
 }
-
-module.exports = {
-  ExchangeRateClient,
-};

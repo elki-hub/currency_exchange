@@ -1,5 +1,4 @@
-// @ts-ignore
-class ExchangeService {
+export class ExchangeService {
   private api: any;
   private cache: any;
 
@@ -23,5 +22,3 @@ class ExchangeService {
     return `${baseCurrency}/${quoteCurrency}`;
   }
 }
-
-exports.ExchangeService = ExchangeService;

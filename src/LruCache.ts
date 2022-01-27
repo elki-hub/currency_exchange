@@ -1,34 +1,22 @@
 class LinkedNode {
-  key: string;
-  private value: number;
-  next: LinkedNode;
-  prev: LinkedNode;
-
-  constructor(key, value) {
-    this.key = key;
-    this.value = value;
-    this.next = null;
-    this.prev = null;
-  }
+  constructor(
+    public key: string,
+    public value: number,
+    public next?: LinkedNode,
+    public prev?: LinkedNode
+  ) {}
 }
 
-// @ts-ignore
-class LruCache {
-  private head: LinkedNode;
-  private tail: LinkedNode;
-  private readonly max: number;
-  private size: number;
-  private cache: {};
+export class LruCache {
+  constructor(
+    private max: number,
+    private size?: number,
+    private head?: LinkedNode,
+    private tail?: LinkedNode,
+    private cache?: {}
+  ) {}
 
-  constructor(max) {
-    this.head = null;
-    this.tail = null;
-    this.max = max;
-    this.size = 0;
-    this.cache = {};
-  }
-
-  #addElementToTheTail(node) {
+  private addElementToTheTail(node) {
     if (this.tail) {
       this.tail.next = node;
     }
@@ -55,7 +43,7 @@ class LruCache {
     }
 
     //adds new element to the tail
-    this.#addElementToTheTail(node);
+    this.addElementToTheTail(node);
   }
 
   get(key) {
@@ -75,11 +63,9 @@ class LruCache {
       }
 
       delete this.cache[node.key];
-      this.#addElementToTheTail(node);
+      this.addElementToTheTail(node);
     }
 
     return node.value;
   }
 }
-
-exports.LruCache = LruCache;
