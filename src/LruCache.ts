@@ -12,7 +12,8 @@ class LinkedNode {
   }
 }
 
-class LinkedCache {
+// @ts-ignore
+class LruCache {
   private head: LinkedNode;
   private tail: LinkedNode;
   private readonly max: number;
@@ -81,4 +82,4 @@ class LinkedCache {
   }
 }
 
-exports.LruCache = LinkedCache;
+exports.LruCache = LruCache;

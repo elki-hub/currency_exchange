@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
 const { objectSchema } = require("./schema");
+// @ts-ignore
 const { LruCache } = require("./LruCache");
 // @ts-ignore
 const { ExchangeRateClient } = require("./exchangeRateClient");
