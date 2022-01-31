@@ -2,19 +2,22 @@ class LinkedNode {
   constructor(
     public key: string,
     public value: number,
-    public next?: LinkedNode,
-    public prev?: LinkedNode
+    public next: LinkedNode = null,
+    public prev: LinkedNode = null
   ) {}
 }
 
 export class LruCache {
+  private cache: {};
+
   constructor(
-    private max: number,
-    private size?: number,
-    private head?: LinkedNode,
-    private tail?: LinkedNode,
-    private cache?: {}
-  ) {}
+    private readonly max: number,
+    private size: number = 0,
+    private head: LinkedNode = null,
+    private tail: LinkedNode = null
+  ) {
+    this.cache = {};
+  }
 
   private addElementToTheTail(node) {
     if (this.tail) {
