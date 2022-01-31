@@ -61,7 +61,6 @@ export class LruCache {
         this.cache[node.next.key].prev = null;
         this.head = node.next;
       }
-
       delete this.cache[node.key];
       this.addElementToTheTail(node);
     }

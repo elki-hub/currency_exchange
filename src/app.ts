@@ -1,19 +1,18 @@
-const express = require("express");
+import express from "express";
+import bodyParser from "body-parser";
+import { objectSchema } from "./schema";
+import { LruCache } from "./LruCache";
+import { ExchangeRateClient } from "./exchangeRateClient";
+import { ExchangeService } from "./exchangeService";
+
 const app = express();
 const port = 3000;
-const bodyParser = require("body-parser");
-const { objectSchema } = require("./schema");
-const { LruCache } = require("./LruCache");
-const { ExchangeRateClient } = require("./exchangeRateClient");
-const { ExchangeService } = require("./exchangeService");
-app.use(bodyParser.json());
-
-// const cache = new Cache();
-// const exchangeRateClient = new ExchangeRateClient();
 const exchangeService = new ExchangeService(
   new ExchangeRateClient(),
   new LruCache(3)
 );
+
+app.use(bodyParser.json());
 
 app.post("/quote", async (req, res) => {
   try {
@@ -35,7 +34,6 @@ app.post("/quote", async (req, res) => {
     );
 
     const quoteAmount = await Number((baseAmount * exchangeRate).toFixed(3));
-    //console.log(quoteAmount);
 
     const exchange = {
       exchangeRate: exchangeRate,

@@ -1,11 +1,11 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const validCurrencies = ["EUR", "USD", "GBP", "ILS"];
 const currencySchema = Joi.string()
   .uppercase()
   .valid(...validCurrencies);
 
-exports.objectSchema = Joi.object({
+export const objectSchema = Joi.object({
   baseCurrency: currencySchema.required(),
   quoteCurrency: currencySchema.required(),
   baseAmount: Joi.number().integer().positive().required(),
