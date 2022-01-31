@@ -1,11 +1,5 @@
 export class ExchangeService {
-  private api: any;
-  private cache: any;
-
-  constructor(api, cache) {
-    this.api = api;
-    this.cache = cache;
-  }
+  constructor(private api: any, private cache: any) {}
 
   async getExchangeWithCache(baseCurrency, quoteCurrency) {
     const key = ExchangeService.getExchangeKey(baseCurrency, quoteCurrency);
