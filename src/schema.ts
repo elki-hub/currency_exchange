@@ -1,6 +1,7 @@
 import Joi from "joi";
+require("dotenv").config();
 
-const validCurrencies = ["EUR", "USD", "GBP", "ILS"];
+const validCurrencies = process.env.VALID_CURRENCIES.split(", ");
 const currencySchema = Joi.string()
   .uppercase()
   .valid(...validCurrencies);

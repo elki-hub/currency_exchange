@@ -1,9 +1,10 @@
 const axios = require("axios");
+require("dotenv").config();
 //sinon js
 
 export class ExchangeRateClient {
   constructor(
-    private readonly rateURL: string = "https://api.exchangerate-api.com/v4/latest/"
+    private readonly rateURL: string = process.env.EXCHANGE_API_URL
   ) {}
 
   async getRate(baseCurrency, quoteCurrency) {
