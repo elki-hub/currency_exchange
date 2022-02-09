@@ -1,5 +1,6 @@
-const assert = require("assert");
-const { LruCache } = require("../src/LruCache");
+import "mocha";
+import assert from "assert";
+import { LruCache } from "../src/LruCache";
 
 describe("lruCache", () => {
   it("can hold 2 last values in cache", () => {
