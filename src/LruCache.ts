@@ -8,18 +8,15 @@ class LinkedNode {
 }
 
 export class LruCache {
-  private cache: {};
-
   constructor(
     private readonly max: number,
     private size: number = 0,
+    private cache: { [key: string]: LinkedNode } = {},
     private head: LinkedNode = null,
     private tail: LinkedNode = null
-  ) {
-    this.cache = {};
-  }
+  ) {}
 
-  private addElementToTheTail(node) {
+  private addElementToTheTail(node: LinkedNode) {
     if (this.tail) {
       this.tail.next = node;
     }
@@ -30,7 +27,7 @@ export class LruCache {
     this.size = Object.values(this.cache).length;
   }
 
-  set(key, value) {
+  set(key: string, value: number) {
     let node = new LinkedNode(key, value);
 
     //if the list is empty
@@ -49,7 +46,7 @@ export class LruCache {
     this.addElementToTheTail(node);
   }
 
-  get(key) {
+  get(key: string) {
     const node = this.cache[key];
     if (!node) {
       return undefined;

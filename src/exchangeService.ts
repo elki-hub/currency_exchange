@@ -1,7 +1,7 @@
 export class ExchangeService {
   constructor(private api: any, private cache: any) {}
 
-  async getExchangeWithCache(baseCurrency, quoteCurrency) {
+  async getExchangeWithCache(baseCurrency: string, quoteCurrency: string) {
     const key = ExchangeService.getExchangeKey(baseCurrency, quoteCurrency);
     let exchangeResult = this.cache.get(key);
     if (!exchangeResult) {
@@ -12,7 +12,7 @@ export class ExchangeService {
     return exchangeResult;
   }
 
-  static getExchangeKey(baseCurrency, quoteCurrency) {
+  static getExchangeKey(baseCurrency: string, quoteCurrency: string) {
     return `${baseCurrency}/${quoteCurrency}`;
   }
 }
