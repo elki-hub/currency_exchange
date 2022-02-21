@@ -5,6 +5,7 @@ import { LruCache } from "./LruCache";
 import { ExchangeRateClient } from "./exchangeRateClient";
 import { ExchangeService } from "./exchangeService";
 import "dotenv/config";
+import logger from "./lib/logger";
 
 const app = express();
 const port =
@@ -22,7 +23,7 @@ app.post("/quote", async (req, res) => {
   try {
     req.body = await objectSchema.validateAsync(req.body);
   } catch (err) {
-    console.log(err.message);
+    logger.log("error", err.message);
 
     return res.status(404).json({
       error: err.message,
@@ -45,8 +46,9 @@ app.post("/quote", async (req, res) => {
     };
     res.json(exchange);
   } catch (err) {
-    //console.log(err.response.data);
-    console.log(err);
+    //logger.log(err.response.data);
+    logger.log("error", err);
+
     return res.status(500).json({ error: "System error!" });
   }
 });

@@ -1,5 +1,6 @@
 import { LruCache } from "./LruCache";
 import { ExchangeRateClient } from "./exchangeRateClient";
+import logger from "./lib/logger";
 
 export class ExchangeService {
   constructor(private api: ExchangeRateClient, private cache: LruCache) {}
@@ -11,7 +12,8 @@ export class ExchangeService {
       exchangeResult = await this.api.getRate(baseCurrency, quoteCurrency);
       this.cache.set(key, exchangeResult);
     }
-    console.log(this.cache);
+    logger.log("debug", "Current Cache" + this.cache);
+    //console.log(this.cache);
     return exchangeResult;
   }
 
