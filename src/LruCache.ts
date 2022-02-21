@@ -28,7 +28,7 @@ export class LruCache {
   }
 
   set(key: string, value: number) {
-    let node = new LinkedNode(key, value);
+    const node = new LinkedNode(key, value);
 
     //if the list is empty
     if (this.size === 0) {

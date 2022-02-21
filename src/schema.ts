@@ -1,5 +1,5 @@
 import Joi from "joi";
-require("dotenv").config();
+import "dotenv/config";
 
 const validCurrencies = process.env.VALID_CURRENCIES.split(", ");
 const currencySchema = Joi.string()

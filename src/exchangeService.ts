@@ -1,9 +1,12 @@
+import { LruCache } from "./LruCache";
+import { ExchangeRateClient } from "./exchangeRateClient";
+
 export class ExchangeService {
-  constructor(private api: any, private cache: any) {}
+  constructor(private api: ExchangeRateClient, private cache: LruCache) {}
 
   async getExchangeWithCache(baseCurrency: string, quoteCurrency: string) {
     const key = ExchangeService.getExchangeKey(baseCurrency, quoteCurrency);
-    let exchangeResult = this.cache.get(key);
+    let exchangeResult: number = this.cache.get(key);
     if (!exchangeResult) {
       exchangeResult = await this.api.getRate(baseCurrency, quoteCurrency);
       this.cache.set(key, exchangeResult);
