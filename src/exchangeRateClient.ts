@@ -1,5 +1,5 @@
 import axios from "axios";
-import "dotenv/config";
+import { exchangeApiUrl } from "./config";
 import logger from "./lib/logger";
 
 interface ApiData {
@@ -10,9 +10,7 @@ interface ApiData {
 //sinon js
 
 export class ExchangeRateClient {
-  constructor(
-    private readonly rateURL: string = process.env.EXCHANGE_API_URL
-  ) {}
+  constructor(private readonly rateURL: string = exchangeApiUrl) {}
 
   async getRate(baseCurrency: string, quoteCurrency: string) {
     const data: ApiData = await axios.get(this.rateURL + baseCurrency);

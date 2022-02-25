@@ -1,7 +1,6 @@
 import Joi from "joi";
-import "dotenv/config";
+import { validCurrencies } from "./config";
 
-const validCurrencies = process.env.VALID_CURRENCIES.split(", ");
 const currencySchema = Joi.string()
   .uppercase()
   .valid(...validCurrencies);

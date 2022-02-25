@@ -4,14 +4,10 @@ import { objectSchema } from "./schema";
 import { LruCache } from "./LruCache";
 import { ExchangeRateClient } from "./exchangeRateClient";
 import { ExchangeService } from "./exchangeService";
-import "dotenv/config";
+import { port } from "./config";
 import logger from "./lib/logger";
 
 const app = express();
-const port =
-  process.env.NODE_ENV !== "production"
-    ? process.env.LOCAL_PORT
-    : process.env.PORT;
 const exchangeService = new ExchangeService(
   new ExchangeRateClient(),
   new LruCache(3)
