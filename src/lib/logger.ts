@@ -33,12 +33,12 @@ const exceptionHandlers = [
   new winston.transports.File({ filename: "logs/exceptions.log" }),
 ];
 
-const logger = winston.createLogger({
-  level,
-  levels,
-  format,
-  transports,
-  exceptionHandlers,
-});
-
-export default logger;
+export function buildLogger() {
+  return winston.createLogger({
+    level,
+    levels,
+    format,
+    transports,
+    exceptionHandlers,
+  });
+}

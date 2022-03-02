@@ -1,6 +1,5 @@
 import axios from "axios";
 import { exchangeApiUrl } from "./config";
-import logger from "./lib/logger";
 
 interface ApiData {
   data: {
@@ -14,7 +13,7 @@ export class ExchangeRateClient {
 
   async getRate(baseCurrency: string, quoteCurrency: string) {
     const data: ApiData = await axios.get(this.rateURL + baseCurrency);
-    logger.log("info", "-0.01$ was charged");
+    // logger.log("info", "-0.01$ was charged");
     return data.data.rates[quoteCurrency];
   }
 }
