@@ -2,7 +2,7 @@ import "mocha";
 import assert from "assert";
 import { LruCache } from "../src/LruCache";
 
-describe("lruCache", () => {
+describe("Testing LruCache", () => {
   it("can hold 2 last values in cache", () => {
     const lruCache = new LruCache(2);
     lruCache.set("A", 13);
