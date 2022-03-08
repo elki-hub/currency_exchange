@@ -8,5 +8,5 @@ const currencySchema = Joi.string()
 export const objectSchema = Joi.object({
   baseCurrency: currencySchema.required(),
   quoteCurrency: currencySchema.required(),
-  baseAmount: Joi.number().integer().positive().required(),
+  baseAmount: Joi.number().positive().required(),
 });
