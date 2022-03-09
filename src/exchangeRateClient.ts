@@ -6,7 +6,6 @@ interface ApiData {
     rates: { [key: string]: number };
   };
 }
-//sinon js
 
 export class ExchangeRateClient {
   constructor(private readonly rateURL: string = exchangeApiUrl) {}
