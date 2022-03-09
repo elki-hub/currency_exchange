@@ -17,7 +17,7 @@ describe("Test Get request", () => {
 });
 
 describe("Test Post request", () => {
-  it("can operate get post", async () => {
+  it("can operate post request", async () => {
     const reqBody = {
       baseCurrency: "USD",
       quoteCurrency: "USD",
